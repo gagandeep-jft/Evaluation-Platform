@@ -18,7 +18,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     TestModule,
     QuestionsModule,
     HistoryModule,
-    ConfigModule,
+    ConfigModule.forRoot({}),
     ExecutorModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule.forRoot({})],
