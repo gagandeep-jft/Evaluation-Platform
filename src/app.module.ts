@@ -10,6 +10,9 @@ import { HistoryModule } from './history/history.module';
 import { ExecutorModule } from './executor/executor.module';
 import { User } from './users/user.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+// import { UserController } from './user/user.controller';
+import { HistoryController } from './history/history.controller';
+import { HistoryModule } from './history/history.module';
 
 @Module({
   imports: [
@@ -34,7 +37,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       inject: [ConfigService],
     }),
   ],
-  controllers: [AppController],
+  controllers: [AppController, HistoryController, ],
   providers: [AppService],
 })
 export class AppModule {}
