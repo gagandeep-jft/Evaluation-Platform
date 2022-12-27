@@ -12,7 +12,7 @@ import { User } from './users/user.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 // import { UserController } from './user/user.controller';
 import { HistoryController } from './history/history.controller';
-import { HistoryModule } from './history/history.module';
+import { Question } from './questions/questions.entity';
 
 @Module({
   imports: [
@@ -31,7 +31,7 @@ import { HistoryModule } from './history/history.module';
         username: configService.get('DB_USER'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [User],
+        entities: [User, Question],
         synchronize: true,
       }),
       inject: [ConfigService],
