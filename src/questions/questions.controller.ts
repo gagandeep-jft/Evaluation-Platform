@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { CreateQuestionDTO } from './dto/create-question.dto';
 import { UpdateQuestionDTO } from './dto/update-question.dto';
-import { Question } from './questions.entity';
+import { Question } from './entities/questions.entity';
 import { QuestionsService } from './questions.service';
 
 @Controller('questions')
