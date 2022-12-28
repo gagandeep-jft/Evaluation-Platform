@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { UpdateUserDTO } from './dto/update-user.dto';
 import { User } from './user.entity';
@@ -9,6 +9,7 @@ export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
   @Get('dashboard')
+  // @UseGuards(authGuard("admin"))
   findAll(): Promise<User[]> {
     return this.userService.findAll();
   }

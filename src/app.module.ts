@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
@@ -7,7 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { TestModule } from './test/test.module';
 import { QuestionsModule } from './questions/questions.module';
-import { HistoryModule } from './history/history.module';
+// import { HistoryModule } from './history/history.module';
 import { ExecutorModule } from './executor/executor.module';
 import { User } from './users/user.entity';
 import { HistoryController } from './history/history.controller';
@@ -22,6 +22,9 @@ import { SolutionsService } from './solutions/solutions.service';
 import { SolutionsModule } from './solutions/solutions.module';
 import { Solution } from './solutions/entities';
 import { History } from './history/entities';
+import { LoggerMiddleware } from './logger/logger.middleware';
+import { HistoryModule } from './history/history.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -48,8 +51,19 @@ import { History } from './history/entities';
     TestCasesModule,
     InvitesModule,
     SolutionsModule,
+    JwtModule.register({
+      secret: 'abcg',
+      signOptions: { expiresIn: '1d' },
+    }),
   ],
   controllers: [AppController, HistoryController],
   providers: [AppService, InvitesService, SolutionsService],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(LoggerMiddleware)
+      .exclude('auth')
+      .forRoutes('users', 'questions', 'tests', 'history');
+  }
+}
