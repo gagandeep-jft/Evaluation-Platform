@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Invite } from 'src/invites/entities';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  JoinTable,
+  OneToMany,
+} from 'typeorm';
 
 @Entity()
 export class User {
@@ -16,4 +23,8 @@ export class User {
 
   @Column({ default: 'user' })
   role: string;
+
+  @OneToMany(() => Invite, (invite: Invite) => invite.user)
+  @JoinTable()
+  invites: Invite[];
 }
