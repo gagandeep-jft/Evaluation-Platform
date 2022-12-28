@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -13,6 +13,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 // import { UserController } from './user/user.controller';
 import { HistoryController } from './history/history.controller';
 import { Question } from './questions/questions.entity';
+import { LoggerMiddleware } from './logger/logger.middleware';
+import { HistoryModule } from './history/history.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -36,8 +39,19 @@ import { Question } from './questions/questions.entity';
       }),
       inject: [ConfigService],
     }),
+    JwtModule.register({
+      secret: "abcg",
+      signOptions: { expiresIn: '1d' },
+    })
   ],
   controllers: [AppController, HistoryController, ],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(LoggerMiddleware)
+      .exclude('auth')
+      .forRoutes('users','questions','tests','history');
+  }
+}

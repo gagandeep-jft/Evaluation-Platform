@@ -60,11 +60,11 @@ export class AuthService {
       User &&
       bcrypt.compare(user.password,User.password)
     ) {
-      console.log(User);
+      // console.log(User);
       const { password, ...result } = user;
       let token = await this.jwtService.sign({ result });
-      console.log(token);
-      await res.cookie('jft', token, { httpOnly: true });
+      // console.log(token);
+      await res.cookie('Ep', token, { httpOnly: true });
       return res.status(200).send({ token: token });
     }
   }
