@@ -6,7 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { TestModule } from './test/test.module';
 import { QuestionsModule } from './questions/questions.module';
-import { HistoryModule } from './history/history.module';
+// import { HistoryModule } from './history/history.module';
 import { ExecutorModule } from './executor/executor.module';
 import { User } from './users/user.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
