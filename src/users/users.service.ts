@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { User } from './user.entity';
-import * as bcrypt from 'bcrypt';
 import { UpdateUserDTO } from './dto/update-user.dto';
+import { SignInUserDTO } from 'src/users/dto/signin.dto';
 
 @Injectable()
 export class UsersService {
@@ -21,17 +22,31 @@ export class UsersService {
     return this.usersRepository.findOneBy({ id });
   }
 
+  findBy(field: object) {
+    return this.usersRepository.findOneBy(field);
+  }
+
   async hashPW(password: string): Promise<string> {
     const saltOrRounds = 10;
     const hash = await bcrypt.hash(password, saltOrRounds);
     return hash;
   }
 
+  async verifyPassword(user: SignInUserDTO, password: string) {
+    return await bcrypt.compare(password, user.password);
+  }
+
   async create(newUser: CreateUserDTO): Promise<User> {
+    if (
+      (await this.usersRepository.findOneBy({
+        email: newUser.email,
+      })) != null
+    ) {
+      throw new BadRequestException('user with same email already exists');
+    }
     const password = await this.hashPW(newUser.password);
     newUser = { ...newUser, password };
     console.log(newUser);
-
     return await this.usersRepository.save(newUser);
   }
 

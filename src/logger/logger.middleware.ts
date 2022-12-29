@@ -13,9 +13,9 @@ export class LoggerMiddleware implements NestMiddleware {
   ) {}
   async use(req: any, res: any, next: () => void) {
     try {
-      let cookie = req.cookies['jft'];
-      let jwt = await this.jwtService.verifyAsync(cookie);
-      let User = await this.usersRepository.findOneBy({
+      const cookie = req.cookies['jwt'];
+      const jwt = await this.jwtService.verifyAsync(cookie);
+      const User = await this.usersRepository.findOneBy({
         email: jwt.result.email,
       });
 

@@ -18,11 +18,12 @@ export class UsersController {
   findOne(@Param('id') id): Promise<User> {
     return this.userService.findOne(id);
   }
+
   @Post('create')
-  create(@Body() createUserDTO: CreateUserDTO): Promise<User> {
+  async create(@Body() createUserDTO: CreateUserDTO) {
     // const { name, email, password, role } = createUserDTO;
     // const hashedPW = this.userService.hashPW(password)
-    return this.userService.create(createUserDTO);
+    return await this.userService.create(createUserDTO);
   }
 
   @Post('update/:id')

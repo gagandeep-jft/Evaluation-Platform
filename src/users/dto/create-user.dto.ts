@@ -1,7 +1,23 @@
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from '@nestjs/class-validator';
+
 export class CreateUserDTO {
-  readonly id?: number;
-  readonly name: string;
-  readonly email: string;
-  readonly password: string;
-  readonly role: string;
+  @IsOptional()
+  @IsNumber()
+  id?: number;
+
+  @IsNotEmpty()
+  @IsString()
+  name: string;
+
+  @IsNotEmpty()
+  @IsString()
+  email: string;
+
+  @IsNotEmpty()
+  @IsString()
+  password: string;
+
+  @IsNotEmpty()
+  @IsString()
+  role: string;
 }

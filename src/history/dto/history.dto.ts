@@ -1,15 +1,19 @@
 import {
+  IsBoolean,
   IsDefined,
   IsNotEmpty,
   IsNumber,
   IsString,
   ValidateNested,
 } from '@nestjs/class-validator';
+import { Test } from '@nestjs/testing';
 import { Type } from 'class-transformer';
+import { User } from 'src/users/user.entity';
 
 class SolutionDto {
   @IsNotEmpty()
   @IsNumber()
+  @Type(() => Number)
   questionId: number;
 
   @IsNotEmpty()
@@ -18,6 +22,7 @@ class SolutionDto {
 
   @IsNotEmpty()
   @IsNumber()
+  @Type(() => Number)
   versionIndex: number;
 
   @IsNotEmpty()
@@ -26,18 +31,22 @@ class SolutionDto {
 }
 
 export class HistoryDto {
+  @Type(() => Number)
   id?: number;
-  
-  @IsNotEmpty()
-  @IsNumber()
+
+
   userId: number;
+  testId: number;
   
   @IsNotEmpty()
-  @IsNumber()
-  testId: number;
+  @IsBoolean()
+  isSubmitted: boolean;
+
+  @IsBoolean()
+  isVisible?: boolean;
 
   @IsDefined()
   @ValidateNested({ each: true })
   @Type(() => SolutionDto)
-  solution: SolutionDto[];
+  solution?: SolutionDto[];
 }

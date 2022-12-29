@@ -1,6 +1,7 @@
+import { IsDate, IsOptional } from '@nestjs/class-validator';
+import { Type } from 'class-transformer';
 import { IsNotEmpty, IsString, IsNumber, IsArray } from 'class-validator';
 import { Question } from 'src/questions/entities';
-import { OneToMany } from 'typeorm';
 
 export class testDto {
   @IsNotEmpty()
@@ -11,11 +12,21 @@ export class testDto {
   @IsString()
   uid: string;
 
-  @IsNumber()
-  timetaken: number;
-
   @IsNotEmpty()
   @IsArray()
-  @OneToMany(() => Question, (question: Question) => question)
   questions: Question[];
+}
+
+export class TestStartDto {
+  @IsNumber()
+  @Type(() => Number)
+  id: number;
+
+  @IsNumber()
+  @Type(() => Number)
+  userId: number;
+
+  @IsOptional()
+  @IsDate()
+  submittedAt?: Date;
 }

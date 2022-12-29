@@ -18,7 +18,9 @@ export class HistoryService {
     return this.historyRepository.findOneBy({ id });
   }
 
-  save(history: HistoryDto) {
-    return this.historyRepository.create(history);
+  async save(history: HistoryDto) {
+    console.log(history);
+    const result = this.historyRepository.create(history);
+    return await this.historyRepository.insert(result);
   }
 }

@@ -16,7 +16,7 @@ import { Solution } from 'src/solutions/entities';
 export class History {
   @PrimaryGeneratedColumn()
   id: number;
-
+  
   @OneToOne(() => User)
   user: User;
 
@@ -32,6 +32,7 @@ export class History {
   @JoinTable()
   solutions: Solution[];
 
+  // @Column({ default: true })
   @Column()
   isVisible: boolean;
 
