@@ -7,15 +7,18 @@ import { User } from 'src/users/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
 import { LoggerMiddleware } from 'src/logger/logger.middleware';
+import { UsersService } from 'src/users/users.service';
 
 @Module({
-  imports:[ConfigModule.forRoot({}),TypeOrmModule.forFeature([User]),JwtModule.register({
-    secret: "abcg",
-    signOptions: { expiresIn: '1d' },
-  })],
-  providers: [AuthService,GoogleStrategy],
+  imports: [
+    ConfigModule.forRoot({}),
+    TypeOrmModule.forFeature([User]),
+    JwtModule.register({
+      secret: 'abcg',
+      signOptions: { expiresIn: '1d' },
+    }),
+  ],
+  providers: [AuthService, GoogleStrategy, UsersService],
   controllers: [AuthController],
 })
-export class AuthModule {
-  
-}
+export class AuthModule {}

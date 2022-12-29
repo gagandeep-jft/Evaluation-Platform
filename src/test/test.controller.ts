@@ -1,14 +1,15 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { TestService } from './test.service';
 import { HistoryDto } from 'src/history/dto/history.dto';
+import { TestStartDto } from './dto';
 
 @Controller('test')
 export class TestController {
   constructor(private tests: TestService) {}
 
   @Post('start')
-  start(@Body() id: number) {
-    return this.tests.start(id);
+  start(@Body() body: TestStartDto) {
+    return this.tests.start(body);
   }
 
   @Post('submit')

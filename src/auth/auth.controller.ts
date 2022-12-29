@@ -1,36 +1,39 @@
-import { Body, Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthGuard } from '@nestjs/passport'
-import { CreateUserDTO } from './dto/create-user.dto';
-import { SignInUserDTO } from './dto/update-user.dto';
-
+import { AuthGuard } from '@nestjs/passport';
+import { CreateUserDTO } from 'src/users/dto/create-user.dto';
 
 @Controller('auth')
 export class AuthController {
-    constructor(private readonly authService: AuthService) { }
+  constructor(private readonly authService: AuthService) {}
 
-  @Get("google/login")
+  @Get('google/login')
   @UseGuards(AuthGuard('google'))
-  async googleAuth(@Req() req) { }
+  async googleAuth() {
+    return;
+  }
 
   @Get('google/callback')
   @UseGuards(AuthGuard('google'))
-  googleAuthRedirect(@Req() req) {
-    return this.authService.googleLogin(req)
+  googleAuthRedirect(@Req() req, @Res() res) {
+    return this.authService.googleLogin(req, res);
   }
 
   @Post('register')
-  async register(@Body() registerUser:CreateUserDTO,@Res() res){
-    return this.authService.register(registerUser,res);
+  async register(@Body() registerUser: CreateUserDTO) {
+    return this.authService.register(registerUser);
   }
 
-  @Post("login")
-  async signin(@Body() signin:SignInUserDTO, @Res() res ){
-    return this.authService.signin(signin,res);
+  @Post('login')
+  async signin(@Body() signin: any, @Res() res) {
+    return this.authService.signin(signin, res);
   }
-
-  
-
-  
 }
-

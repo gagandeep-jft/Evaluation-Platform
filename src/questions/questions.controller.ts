@@ -14,7 +14,7 @@ export class QuestionsController {
     }
 
     @Get(':id')
-    findOne(@Param('id') id): Promise<Question> {
+    findOne(@Param('id') id: number): Promise<Question> {
         return this.questionService.findOne(id);
     }
 
@@ -24,7 +24,8 @@ export class QuestionsController {
     }
 
     @Post('update/:id')
-    update(@Param('id') id: number, @Body() updateQuesDTO: UpdateQuestionDTO): Promise<Question> {
+    update(@Param('id') id: number,
+    @Body() updateQuesDTO: UpdateQuestionDTO): Promise<Question> {
         return this.questionService.update(id, updateQuesDTO)
     }
 
