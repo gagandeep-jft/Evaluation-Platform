@@ -1,7 +1,13 @@
-import { Injectable, Req, Res } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  Req,
+  Res,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/users.service';
 import { CreateUserDTO } from 'src/users/dto/create-user.dto';
+import { LoginUserDto } from 'src/users/dto/login.dto';
 
 @Injectable()
 export class AuthService {
@@ -25,9 +31,11 @@ export class AuthService {
     return await this.usersService.create(user);
   }
 
-  async signin(user, @Res() res) {
+  async signin(user: LoginUserDto, @Res() res) {
     const result = await this.usersService.findBy({ email: user.email });
-
+    if (!result) {
+      throw new NotFoundException('user not found!');
+    }
     if (await this.usersService.verifyPassword(result, user.password)) {
       const { password, ...result } = user;
       const token = this.jwtService.sign({ result });

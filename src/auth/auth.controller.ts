@@ -10,6 +10,7 @@ import {
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateUserDTO } from 'src/users/dto/create-user.dto';
+import { LoginUserDto } from 'src/users/dto/login.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -33,7 +34,7 @@ export class AuthController {
   }
 
   @Post('login')
-  async signin(@Body() signin: any, @Res() res) {
+  async signin(@Body() signin: LoginUserDto, @Res() res) {
     return this.authService.signin(signin, res);
   }
 }

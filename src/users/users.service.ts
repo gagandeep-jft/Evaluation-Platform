@@ -5,7 +5,7 @@ import * as bcrypt from 'bcrypt';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { User } from './user.entity';
 import { UpdateUserDTO } from './dto/update-user.dto';
-import { SignInUserDTO } from 'src/users/dto/signin.dto';
+import { LoginUserDto } from 'src/users/dto/login.dto';
 
 @Injectable()
 export class UsersService {
@@ -32,7 +32,7 @@ export class UsersService {
     return hash;
   }
 
-  async verifyPassword(user: SignInUserDTO, password: string) {
+  async verifyPassword(user: LoginUserDto, password: string) {
     return await bcrypt.compare(password, user.password);
   }
 
