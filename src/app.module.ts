@@ -51,9 +51,13 @@ import { JwtModule } from '@nestjs/jwt';
     TestCasesModule,
     InvitesModule,
     SolutionsModule,
-    JwtModule.register({
-      secret: 'abcg',
-      signOptions: { expiresIn: '1d' },
+    JwtModule.registerAsync({
+      imports: [ConfigModule.forRoot({})],
+      useFactory: async (configService: ConfigService) => ({
+        secret: configService.get('JWT_SECRET'),
+        signOptions: { expiresIn: '1d' },
+      }),
+      inject: [ConfigService],
     }),
   ],
   controllers: [AppController, HistoryController],
