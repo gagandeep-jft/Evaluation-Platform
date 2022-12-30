@@ -6,9 +6,7 @@ import {
   IsString,
   ValidateNested,
 } from '@nestjs/class-validator';
-import { Test } from '@nestjs/testing';
 import { Type } from 'class-transformer';
-import { User } from 'src/users/user.entity';
 
 class SolutionDto {
   @IsNotEmpty()

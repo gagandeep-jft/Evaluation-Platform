@@ -1,12 +1,13 @@
-import { IsNumber } from '@nestjs/class-validator';
+import { IsNumber, IsOptional } from '@nestjs/class-validator';
 import { IsString, IsNotEmpty } from 'class-validator';
 
-export class CreateTestCaseDto {
+export class TestCaseDto {
+  @IsOptional()
   @IsNumber()
-  @IsNotEmpty()
-  qid: number;
-  
+  qid?: number;
+
   @IsString()
+  @IsNotEmpty()
   stdin: string;
 
   @IsString()

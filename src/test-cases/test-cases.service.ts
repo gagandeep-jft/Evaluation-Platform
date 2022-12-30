@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTestCaseDto } from './dto/create-test-case.dto';
+import { TestCaseDto } from './dto/create-test-case.dto';
 import { UpdateTestCaseDto } from './dto/update-test-case.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TestCase } from './entities';
@@ -12,8 +12,9 @@ export class TestCasesService {
     private readonly testCaseRepository: Repository<TestCase>,
   ) {}
 
-  async create(createTestCaseDto: CreateTestCaseDto) {
-    return await this.testCaseRepository.create(createTestCaseDto);
+  async create(TestCaseDto: TestCaseDto) {
+    const result = this.testCaseRepository.create(TestCaseDto);
+    return await this.testCaseRepository.save(result);
   }
 
   async findAll() {

@@ -19,7 +19,7 @@ export class QuestionsController {
     }
 
     @Post('create')
-    create(@Body() createQuesDTO: CreateQuestionDTO): Promise<Question> {
+    create(@Body() createQuesDTO: CreateQuestionDTO) {
         return this.questionService.create(createQuesDTO)
     }
 
@@ -30,7 +30,7 @@ export class QuestionsController {
     }
 
     @Post('delete/:id')
-    delete(@Param('id') id: number): Promise<Question> {
+    delete(@Param('id') id: number) {
         return this.questionService.remove(id);
     }
 }

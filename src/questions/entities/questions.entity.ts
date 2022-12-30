@@ -23,10 +23,24 @@ export class Question {
   @Column()
   points: number;
 
+  @Column()
+  code: string;
+
+  @Column()
+  language: string;
+
+  @Column()
+  versionIndex: number;
+  
+  @OneToMany(() => TestCase, (tcase) => tcase.question, {
+    cascade: true,
+    orphanedRowAction: 'delete',
+    onDelete: 'CASCADE',
+    eager: true,
+  })
+  @JoinTable({})
+  test_cases: TestCase[];
+
   @ManyToMany(() => Test, (test: Test) => test.questions)
   tests: Test[];
-
-  @OneToMany(() => TestCase, (tcase) => tcase.question, { onDelete: 'CASCADE' })
-  @JoinTable()
-  test_cases: TestCase[];
 }

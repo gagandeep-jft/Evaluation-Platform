@@ -6,7 +6,10 @@ export class TestCase {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Question, (question: Question) => question.test_cases)
+  @ManyToOne(() => Question, (question: Question) => question.test_cases, {
+    orphanedRowAction: 'delete',
+    onDelete: 'CASCADE',
+  })
   question: Question;
 
   @Column()
