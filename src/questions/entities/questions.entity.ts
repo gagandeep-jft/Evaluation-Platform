@@ -24,7 +24,7 @@ export class Question {
   points: number;
 
   @Column()
-  code: string;
+  script: string;
 
   @Column()
   language: string;

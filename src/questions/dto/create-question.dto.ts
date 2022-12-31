@@ -25,7 +25,7 @@ export class CreateQuestionDTO {
 
   @IsNotEmpty()
   @IsString()
-  code: string;
+  script: string;
 
   @IsNotEmpty()
   @IsString()

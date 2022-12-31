@@ -1,15 +1,20 @@
-import { IsNotEmpty, IsString, IsNumberString } from 'class-validator';
+import { IsNumber, IsOptional } from '@nestjs/class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class executorDto {
   @IsNotEmpty()
   @IsString()
   script: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
-  lang: string;
+  stdin?: string;
 
   @IsNotEmpty()
-  @IsNumberString()
-  versionIndex: string;
+  @IsString()
+  language: string;
+
+  @IsNotEmpty()
+  @IsNumber()
+  versionIndex: number;
 }

@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ExecutorService } from 'src/executor/executor.service';
 import { TestCase } from 'src/test-cases/entities';
 import { Repository } from 'typeorm';
 import { CreateQuestionDTO } from './dto/create-question.dto';
@@ -11,6 +12,7 @@ export class QuestionsService {
   constructor(
     @InjectRepository(Question)
     private questionRepository: Repository<Question>,
+    private executorService: ExecutorService,
   ) {}
 
   findAll(): Promise<Question[]> {
@@ -26,14 +28,23 @@ export class QuestionsService {
   }
 
   async create(newQuestion: CreateQuestionDTO) {
-    newQuestion.test_cases = newQuestion.test_cases.map((testCase) => {
-      const tCase = new TestCase();
-      tCase.stdin = testCase.stdin;
-      tCase.output = testCase.output;
-      return tCase;
-    });
+    newQuestion.test_cases = await Promise.all(
+      newQuestion.test_cases.map(async (testCase) => {
+        const tCase = new TestCase();
+        tCase.stdin = testCase.stdin;
+        tCase.output = (
+          await this.executorService.execute({
+            language: newQuestion.language,
+            script: newQuestion.script,
+            versionIndex: newQuestion.versionIndex,
+            stdin: tCase.stdin,
+          })
+        ).output;
+        return tCase;
+      }),
+    );
     console.log(newQuestion);
-    return this.questionRepository.save(newQuestion);
+    return await this.questionRepository.save(newQuestion);
   }
 
   async update(id: number, updQuestion: UpdateQuestionDTO): Promise<Question> {

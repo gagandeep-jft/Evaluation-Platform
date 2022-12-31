@@ -1,6 +1,8 @@
-import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { HttpModule } from '@nestjs/axios';
+import { JwtModule } from '@nestjs/jwt';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
@@ -24,7 +26,6 @@ import { Solution } from './solutions/entities';
 import { History } from './history/entities';
 import { LoggerMiddleware } from './logger/logger.middleware';
 import { HistoryModule } from './history/history.module';
-import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { JwtModule } from '@nestjs/jwt';
     UsersModule,
     TestModule,
     QuestionsModule,
+    HttpModule,
     HistoryModule,
     ConfigModule.forRoot({}),
     ExecutorModule,
